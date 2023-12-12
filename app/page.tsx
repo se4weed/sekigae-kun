@@ -13,7 +13,7 @@ export default function Home() {
         name: row[1]
       };
     }
-    );
+    ).filter((row: any) => row != null);
     console.log(_formattedData);
   }
   const handleSetSeatData = (data: boolean[][]): void => {
