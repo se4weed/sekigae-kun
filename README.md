@@ -4,10 +4,10 @@
 
 ## 技術
 - System
-  TypeScript / React 18 / Next.js 14(SSR)
-  Tailwind css
+  - TypeScript / React 18 / Next.js 14(SSR)
+  - Tailwind css
 - Infrastructure
-  Vercel
+  - Vercel
 
 
 ## 注意事項
