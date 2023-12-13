@@ -2,10 +2,12 @@
 
 import CSVReader from "@/components/CSVReader";
 import SeatArrange from "@/components/SeatArrange";
+import UserTable from "@/components/UserTable";
 import { useState } from "react";
 
 export default function Home() {
   const [seatData, setSeatData] = useState<boolean[][]>([[true]]);
+  const [userData, setUserData] = useState<{number: number; name: string}[]>([]); // [{number: 1, name: 'hoge'}
   const handleUploadUserCsv = (data: any): void => {
     const _formattedData = data.map((row: any) => {
       return {
@@ -13,8 +15,9 @@ export default function Home() {
         name: row[1]
       };
     }
-    ).filter((row: any) => row != null);
+    ).filter((row: any) => row.number !== '');
     console.log(_formattedData);
+    setUserData(_formattedData);
   }
   const handleSetSeatData = (data: boolean[][]): void => {
     setSeatData(data);
@@ -36,6 +39,7 @@ export default function Home() {
         <div className="">
           <CSVReader setUploadedData={handleUploadUserCsv} />
         </div>
+        <UserTable userData={userData} />
         <h2 className="text-2xl">配席のデータ</h2>
         <div className="flex mx-auto w-full">
           <SeatArrange handleSetSeatData={handleSetSeatData} />
