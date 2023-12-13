@@ -10,8 +10,14 @@ export default function SeatArrange({handleSetSeatData}: Props) {
   const [maxRow, setMaxRow] = useState(1);
   const [maxColumn, setMaxColumn] = useState(1);
   const [seatUses, setSeatUses] = useState<boolean[][]>([[true]]); // [{row: 1, column: 1, name: 'hoge'}
+  const isMounted = React.useRef(false);
+
   useEffect(() => {
-    handleSetSeatData(seatUses)
+    if (!isMounted.current) {
+      handleSetSeatData(seatUses)
+      isMounted.current = true;
+      return;
+    }
   }, [seatUses])
 
   const handleAddColumn = (event: React.MouseEvent<HTMLButtonElement>) => {
