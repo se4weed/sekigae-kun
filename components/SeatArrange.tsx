@@ -66,7 +66,7 @@ export default function SeatArrange({handleSetSeatData}: Props) {
   }
 
   return (
-    <table className="table-auto">
+    <table className="table-auto mx-auto">
       <tbody>
         {Array.from(Array(maxRow).keys()).map((_, index_column) => (
           <tr key={index_column}>
