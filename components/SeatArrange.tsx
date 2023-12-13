@@ -4,9 +4,10 @@ import Seat from '@/components/Seat'
 
 interface Props {
   handleSetSeatData: (data: boolean[][]) => void;
+  seatData: boolean[][];
 }
 
-export default function SeatArrange({handleSetSeatData}: Props) {
+export default function SeatArrange({handleSetSeatData, seatData}: Props) {
   const [maxRow, setMaxRow] = useState(1);
   const [maxColumn, setMaxColumn] = useState(1);
   const [seatUses, setSeatUses] = useState<boolean[][]>([[true]]); // [{row: 1, column: 1, name: 'hoge'}
@@ -49,7 +50,8 @@ export default function SeatArrange({handleSetSeatData}: Props) {
     _seatUses.push(Array(maxColumn).fill(true))
     setSeatUses(_seatUses)
     // setSeatUses([...seatUses, Array(maxColumn).fill(true)])
-    handleSetSeatData(seatUses)
+    handleSetSeatData(_seatUses)
+    console.log("seatdata:", seatData,"\nseatuses:", seatUses, "\n_seatuses",_seatUses)
   }
   const handleSubRow = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (maxRow > 1) {
@@ -72,63 +74,65 @@ export default function SeatArrange({handleSetSeatData}: Props) {
   }
 
   return (
-    <table className="table-auto mx-auto">
-      <tbody>
-        {Array.from(Array(maxRow).keys()).map((_, index_column) => (
-          <tr key={index_column}>
-            {Array.from(Array(maxColumn).keys()).map((_, index_row) => (
-              <td className="px-2 py-1" key={index_row}>
-                <Seat 
-                  text={``}
-                  handleToggleSeat={handleToggleSeat}
-                  columun={index_column} 
-                  row={index_row}
-                />
-              </td>
-            ))}
-            {(index_column === 0) && 
-            <>
-              <td className='my-auto'>
-                <button 
-                  type="button"
-                  className="blue-btn py-1"
-                  id={`${index_column}`}
-                  onClick={handleAddColumn}>
-                  +
-                </button>
-              </td>
-              {(maxColumn > 1) && <td className='my-auto'>
-                <button 
-                  type="button"
-                  className="red-btn py-1"
-                  onClick={handleSubColumn}>
-                  -
-                </button>
-              </td>}
-            </>
-            }
-            
+    <div>
+      <table className="table-auto mx-auto">
+        <tbody>
+          {seatData.map((seatDataRow, index_column) => (
+            <tr key={index_column}>
+              {seatDataRow.map((_, index_row) => (
+                <td className="px-2 py-1" key={index_row}>
+                  <Seat 
+                    text={``}
+                    handleToggleSeat={handleToggleSeat}
+                    columun={index_column} 
+                    row={index_row}
+                  />
+                </td>
+              ))}
+              {(index_column === 0) && 
+              <>
+                <td className='my-auto'>
+                  <button 
+                    type="button"
+                    className="blue-btn py-1"
+                    id={`${index_column}`}
+                    onClick={handleAddColumn}>
+                    +
+                  </button>
+                </td>
+                {(maxColumn > 1) && <td className='my-auto'>
+                  <button 
+                    type="button"
+                    className="red-btn py-1"
+                    onClick={handleSubColumn}>
+                    -
+                  </button>
+                </td>}
+              </>
+              }
+              
+            </tr>
+          ))}
+          <tr>
+          <td className='my-auto'>
+            <button 
+              type="button"
+              className="blue-btn py-1"
+              onClick={handleAddRow}>
+              +
+            </button>
+          </td>
+          {(maxRow > 1) && <td className='my-auto'>
+            <button 
+              type="button"
+              className="red-btn py-1"
+              onClick={handleSubRow}>
+              -
+            </button>
+          </td>}
           </tr>
-        ))}
-        <tr>
-        <td className='my-auto'>
-          <button 
-            type="button"
-            className="blue-btn py-1"
-            onClick={handleAddRow}>
-            +
-          </button>
-        </td>
-        {(maxRow > 1) && <td className='my-auto'>
-          <button 
-            type="button"
-            className="red-btn py-1"
-            onClick={handleSubRow}>
-            -
-          </button>
-        </td>}
-        </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   )
 }
