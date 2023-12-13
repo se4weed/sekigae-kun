@@ -1,5 +1,6 @@
 "use client";
 
+import CSVDownloader from "@/components/CSVDownloader";
 import CSVReader from "@/components/CSVReader";
 import SeatArrange from "@/components/SeatArrange";
 import SeatShuffle from "@/components/SeatShuffle";
@@ -23,11 +24,14 @@ function countTrueValues(matrix: boolean[][]) {
 
   // 行のループ
   for (let i = 0; i < matrix.length; i++) {
-    // 列のループ
-    for (let j = 0; j < matrix[i].length; j++) {
-      // true の場合は count を増やす
-      if (matrix[i][j] === true) {
-        count++;
+    // 行が undefined でないことを確認
+    if (matrix[i] !== undefined) {
+      // 列のループ
+      for (let j = 0; j < matrix[i].length; j++) {
+        // true の場合は count を増やす
+        if (matrix[i][j] === true) {
+          count++;
+        }
       }
     }
   }
@@ -39,7 +43,7 @@ export default function Home() {
   const [shuffledUserData, setShuffledUserData] = useState<{number: number; name: string}[]>([]); // [{number: 1, name: 'hoge'}
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [seatCount, setSeatCount] = useState<number>(1);
-  const [shuffledSeatData, setShuffledSeatData] = useState<{number: number; name: string}[][]>([[]]); // [{row: 1, column: 1, name: 'hoge'}
+  const [shuffledSeatData, setShuffledSeatData] = useState<{number: number | null; name: string}[][]>([[]]); // [{row: 1, column: 1, name: 'hoge'}
   const isShuffled = useRef<boolean>(false);
 
   const handleUploadUserCsv = (data: any): void => {
@@ -56,7 +60,6 @@ export default function Home() {
   const handleSetSeatData = (data: boolean[][]): void => {
     setSeatData(data);
     setSeatCount(countTrueValues(data));
-    console.log(seatData);
   }
   const handleExecute = () => {
     // handle error
@@ -65,23 +68,20 @@ export default function Home() {
     if (seatData.map(row => row.filter(value => value).length).reduce((a, b) => a + b, 0) !== userData.length) {
       // error
       setAlertMessage('座席数と対象者数が一致しません');
-      const _userData = arrayShuffle([...userData]);
-      setShuffledUserData(_userData);
-      console.log(_userData)
       return;
     }else{
       setAlertMessage('');
       if (!isShuffled.current) {
         // shuffle
         const _userData = arrayShuffle([...userData]);
+        setShuffledUserData(_userData);
         console.log(_userData);
-        isShuffled.current = true;
         console.log(seatData);
+        isShuffled.current = true;
       }else{
         setAlertMessage('席替えは一度しか実行できません。');
       }
     }
-    
   }
   useEffect(() => {
     setSeatCount(seatData.map(row => row.filter(value => value).length).reduce((a, b) => a + b, 0));
@@ -120,10 +120,13 @@ export default function Home() {
           席替えを実行
         </button>
       </div>
-      {
-        shuffledSeatData.length === 0 ? <></> :
-        <SeatShuffle seatData={shuffledSeatData} shuffledUserData={shuffledUserData} />
-      }
+      {shuffledUserData.length !== 0 &&
+        <div className="px-10">
+          <SeatShuffle seatData={seatData} shuffledUserData={shuffledUserData} setShuffledSeatData={setShuffledSeatData} />
+          <div className="flex">
+            <CSVDownloader data={shuffledSeatData}/>
+          </div>
+        </div>}
 
     </>
   )
