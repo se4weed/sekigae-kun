@@ -1,4 +1,5 @@
 # 席替えくん
+https://sekigaekun.se4grape.net
 ## 概要
 ランダムで席替えをするときのためのWebアプリケーションです。
 
