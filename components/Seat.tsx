@@ -14,7 +14,6 @@ export default function Seat({text,columun, row, handleToggleSeat}: Props) {
   const handleClicked = () => {
     setIsClicked(!isClicked)
     handleToggleSeat(columun, row, isClicked)
-    console.log(`column: ${columun}, row: ${row}`)
   }
   return (
     <button 

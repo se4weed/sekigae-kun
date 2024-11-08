@@ -42,7 +42,6 @@ export default function SeatArrange({handleSetSeatData, seatData}: Props) {
     setSeatUses(_seatUses)
     // setSeatUses([...seatUses, Array(maxColumn).fill(true)])
     handleSetSeatData(_seatUses)
-    console.log("seatdata:", seatData,"\nseatuses:", seatUses, "\n_seatuses",_seatUses)
   }
   const handleSubRow = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (maxRow > 1) {
@@ -52,7 +51,6 @@ export default function SeatArrange({handleSetSeatData, seatData}: Props) {
       _seatUses.pop()
       setSeatUses(_seatUses)
       handleSetSeatData(_seatUses)
-      console.log("seatdata:", seatData,"\nseatuses:", seatUses, "\n_seatuses",_seatUses)
     }
   }
   const handleToggleSeat = (column: number, row: number, isActive: boolean) => {

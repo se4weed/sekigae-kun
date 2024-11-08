@@ -114,9 +114,6 @@ export default function CSVReader({
           setUploadedList(_uploadedData.slice(1));
           setUploadedData(_uploadedData.slice(1));
         }
-        // console.log('---------------------------');
-        // console.log(results);
-        // console.log('---------------------------');
         setZoneHover(false);
       }}
       onDragOver={(event: DragEvent) => {
@@ -166,12 +163,8 @@ export default function CSVReader({
                       }}
                       onClick={(event: Event) => {
                         getRemoveFileProps().onClick(event);
-                        // event.preventDefault();
-
-                        // console.log('remove clicked');
                         setUploadedList([]);
                         setUploadedData([]);
-                        // Your code here
                       }}
                     >
                       <Remove color={removeHoverColor} />
