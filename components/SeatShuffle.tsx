@@ -31,9 +31,7 @@ function arrangeUserData(shuffledUserData: {number: number; name: string}[], sea
 export default function SeatShuffle({seatData, shuffledUserData, setShuffledSeatData}: Props) {
   const columnCount = seatData[0].length;
   const _shuffledSeatData = arrangeUserData(shuffledUserData, seatData);
-  console.log("shuffledSeatData", _shuffledSeatData);
   useEffect(() => {
-    console.log("shuffledUserData", shuffledUserData);
     setShuffledSeatData(_shuffledSeatData);
   }, [seatData, shuffledUserData])
   return (
